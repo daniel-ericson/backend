@@ -1,93 +1,93 @@
-package controller; // Define o pacote 'controller' onde a classe será organizada.
+package controller; // Define o pacote 'controller' onde a classe está localizada.
 import model.*; // Importa todas as classes do pacote 'model'.
 import view.*; // Importa todas as classes do pacote 'view'.
 
-// A classe 'TelaDePesquisaController' controla a tela de pesquisa e suas interações. Ela herda da 'TelaDePesquisaView'.
+// Classe que controla a lógica da tela de pesquisa, estendendo a visualização correspondente.
 public class TelaDePesquisaController extends TelaDePesquisaView {
     
-    // Método para notificar o usuário com uma mensagem. Define o texto no label 'lblNotificacoes'.
+    // Método para notificar o usuário com uma mensagem formatada.
     public static void notificarUsuario(String textoNotificacao) {
-        lblNotificacoes.setText(setHtmlFormat(textoNotificacao)); // Formata o texto e o define no label.
+        lblNotificacoes.setText(setHtmlFormat(textoNotificacao)); // Atualiza o rótulo de notificações.
     }
 
-    // Método para preencher os campos de texto da interface (ID, Nome, Email) com os dados fornecidos.
+    // Método para preencher os campos de entrada com os dados de um registro específico.
     public static void preencherCampos(String id, String nome, String email) {
-        txtId.setText(id); // Preenche o campo 'txtId' com o valor de 'id'.
-        txtNome.setText(nome); // Preenche o campo 'txtNome' com o valor de 'nome'.
-        txtEmail.setText(email); // Preenche o campo 'txtEmail' com o valor de 'email'.
+        txtId.setText(id); // Preenche o campo de ID.
+        txtNome.setText(nome); // Preenche o campo de nome.
+        txtEmail.setText(email); // Preenche o campo de email.
     }
 
-    // Método para registrar o texto do campo de pesquisa em uma variável para futuras comparações.
+    // Método para registrar o texto da pesquisa atual.
     public static void registrarPesquisa() {
-        txtUsuario = txtPesquisa.getText(); // Armazena o texto do campo 'txtPesquisa' na variável 'txtUsuario'.
+        txtUsuario = txtPesquisa.getText(); // Armazena o texto da pesquisa atual.
     }
 
-    // Método para realizar a pesquisa. Limpa os campos se o texto pesquisado for diferente do registrado.
+    // Método para realizar a pesquisa e atualizar a interface se o texto mudou.
     public static void pesquisar() {
-        if (txtPesquisa.getText().trim().equals(txtUsuario) == false) { // Verifica se a pesquisa atual é diferente da registrada.
-            limparCampos(""); // Se for diferente, chama o método 'limparCampos' para limpar os campos.
+        String textoPesquisa = txtPesquisa.getText().trim(); // Obtém o texto da pesquisa, removendo espaços em branco.
+        if (!textoPesquisa.equals(txtUsuario)) { // Verifica se o texto de pesquisa é diferente do anterior.
+            limparCampos(""); // Limpa os campos de entrada.
+            TelaDePesquisaModel.pesquisarModel(textoPesquisa); // Chama o modelo para realizar a pesquisa.
         }
     }
 
-    // Método para ir ao primeiro registro. Exibe uma notificação e aciona o método correspondente no modelo.
+    // Método para buscar o primeiro registro.
     public static void primeiroRegistro() {
-        limparCampos("Você está no primeiro registro."); // Limpa os campos e exibe uma mensagem.
-        TelaDePesquisaModel.primeiroRegistroModel(txtPesquisa.getText()); // Chama o método no modelo para buscar o primeiro registro.
+        TelaDePesquisaModel.primeiroRegistroModel(txtPesquisa.getText()); // Invoca o modelo para buscar o primeiro registro.
     }
 
-    // Método para ir ao registro anterior. Exibe uma notificação e aciona o método correspondente no modelo.
+    // Método para buscar o registro anterior ao atual.
     public static void registroAnterior() {
-        limparCampos("Registro anterior posicionado com sucesso."); // Limpa os campos e exibe uma mensagem.
-        TelaDePesquisaModel.registroAnteriorModel(txtPesquisa.getText(), txtId.getText(), txtNome.getText(), txtEmail.getText()); 
-        // Chama o método no modelo, passando os valores atuais de pesquisa, ID, nome e e-mail.
+        TelaDePesquisaModel.registroAnteriorModel(txtPesquisa.getText(), txtId.getText(), txtNome.getText(), txtEmail.getText()); // Chama o modelo para buscar o registro anterior.
     }
 
-    // Método para ir ao próximo registro. Exibe uma notificação e aciona o método correspondente no modelo.
+    // Método para buscar o próximo registro após o atual.
     public static void proximoRegistro() {
-        limparCampos("Próximo registro posicionado com sucesso."); // Limpa os campos e exibe uma mensagem.
-        TelaDePesquisaModel.proximoRegistroModel(txtPesquisa.getText(), txtId.getText(), txtNome.getText(), txtEmail.getText()); 
-        // Chama o método no modelo, passando os valores atuais de pesquisa, ID, nome e e-mail.
+        TelaDePesquisaModel.proximoRegistroModel(txtPesquisa.getText(), txtId.getText(), txtNome.getText(), txtEmail.getText()); // Chama o modelo para buscar o próximo registro.
     }
 
-    // Método para ir ao último registro. Limpa os campos e aciona o método correspondente no modelo.
+    // Método para buscar o último registro.
     public static void ultimoRegistro() {
-        limparCampos(""); // Limpa os campos sem exibir mensagem.
-        TelaDePesquisaModel.ultimoRegistroModel(txtPesquisa.getText(), txtId.getText(), txtNome.getText(), txtEmail.getText()); 
-        // Chama o método no modelo, passando os valores atuais de pesquisa, ID, nome e e-mail.
+        TelaDePesquisaModel.ultimoRegistroModel(txtPesquisa.getText(), txtId.getText(), txtNome.getText(), txtEmail.getText()); // Chama o modelo para buscar o último registro.
     }
 
-    // Método para desabilitar todos os botões de navegação (Primeiro, Anterior, Próximo, Último).
+    // Método para limpar os campos da tela de pesquisa.
+    public static void limparCamposController(String txt) {
+        limparCampos(txt); // Chama o método para limpar os campos na visualização.
+    }
+
+    // Método para desabilitar todos os botões de navegação.
     public static void desabilitarTodos() {
-        btnPrimeiro.setEnabled(false); // Desabilita o botão 'Primeiro'.
-        btnAnterior.setEnabled(false); // Desabilita o botão 'Anterior'.
-        btnProximo.setEnabled(false); // Desabilita o botão 'Próximo'.
-        btnUltimo.setEnabled(false); // Desabilita o botão 'Último'.
+        btnPrimeiro.setEnabled(false); // Desabilita o botão para o primeiro registro.
+        btnAnterior.setEnabled(false); // Desabilita o botão para o registro anterior.
+        btnProximo.setEnabled(false); // Desabilita o botão para o próximo registro.
+        btnUltimo.setEnabled(false); // Desabilita o botão para o último registro.
     }
 
-    // Método para habilitar os botões de navegação para voltar (Primeiro e Anterior).
+    // Método para habilitar os botões de navegação que permitem voltar.
     public static void habilitarVoltar() {
-        desabilitarTodos(); // Primeiro, desabilita todos os botões.
-        btnPrimeiro.setEnabled(true); // Habilita o botão 'Primeiro'.
-        btnAnterior.setEnabled(true); // Habilita o botão 'Anterior'.
+        desabilitarTodos(); // Desabilita todos os botões.
+        btnPrimeiro.setEnabled(true); // Habilita o botão para o primeiro registro.
+        btnAnterior.setEnabled(true); // Habilita o botão para o registro anterior.
     }
 
-    // Método para habilitar todos os botões de navegação (Primeiro, Anterior, Próximo, Último).
+    // Método para habilitar todos os botões de navegação.
     public static void habilitarTodos() {
-        btnPrimeiro.setEnabled(true); // Habilita o botão 'Primeiro'.
-        btnAnterior.setEnabled(true); // Habilita o botão 'Anterior'.
-        btnProximo.setEnabled(true); // Habilita o botão 'Próximo'.
-        btnUltimo.setEnabled(true); // Habilita o botão 'Último'.
+        btnPrimeiro.setEnabled(true); // Habilita o botão para o primeiro registro.
+        btnAnterior.setEnabled(true); // Habilita o botão para o registro anterior.
+        btnProximo.setEnabled(true); // Habilita o botão para o próximo registro.
+        btnUltimo.setEnabled(true); // Habilita o botão para o último registro.
     }
 
-    // Método para habilitar os botões de navegação para avançar (Próximo e Último).
+    // Método para habilitar os botões de navegação que permitem avançar.
     public static void habilitarAvancar() {
-        desabilitarTodos(); // Primeiro, desabilita todos os botões.
-        btnProximo.setEnabled(true); // Habilita o botão 'Próximo'.
-        btnUltimo.setEnabled(true); // Habilita o botão 'Último'.
+        desabilitarTodos(); // Desabilita todos os botões.
+        btnProximo.setEnabled(true); // Habilita o botão para o próximo registro.
+        btnUltimo.setEnabled(true); // Habilita o botão para o último registro.
     }
 
     // Método para desabilitar o botão de pesquisa.
     public static void desabilitarPesquisar() {
-        btnPesquisar.setEnabled(false); // Desabilita o botão 'Pesquisar'.
+        btnPesquisar.setEnabled(false); // Desabilita o botão de pesquisa.
     }
 }
