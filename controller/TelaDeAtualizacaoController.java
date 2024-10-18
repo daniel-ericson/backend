@@ -2,26 +2,14 @@ package controller;
 import model.*;
 import view.*;
 import java.sql.*;
-import java.util.*;
 
 public class TelaDeAtualizacaoController extends TelaDeAtualizacaoView {
     public static void popularIds() {
-        try {
-            ArrayList<String> idsTemp = new ArrayList<>();
-            idsTemp.add("Selecione aqui o id");
-            Connection conexao = MySQLConnector.conectar();
-            String strSqlPopularIds = "select * from `db_senac`.`tbl_senac` order by `id` asc;";
-            Statement stmSqlPopularIds = conexao.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            ResultSet rstSqlPopularIds = stmSqlPopularIds.executeQuery(strSqlPopularIds);
-            while (rstSqlPopularIds.next()) {
-                idsTemp.add(rstSqlPopularIds.getString("id"));
-            }
-            ids = idsTemp.toArray(new String[0]);
-            stmSqlPopularIds.close();
-        } catch (Exception e) {
-            lblNotificacoes.setText(setHtmlFormat("Não foi possível encontrar os ids! Por favor, verifique e tente novamente."));
-            System.err.println("Erro: " + e);
-        }
+        TelaDeAtualizacaoModel.popularIdsModel();
+    }
+
+    public static void enviarIds(String[] idsView) {
+        ids = idsView;
     }
 
     public static void atualizarId() {
@@ -47,7 +35,7 @@ public class TelaDeAtualizacaoController extends TelaDeAtualizacaoView {
                 }
                 atualizarSenha += "`senha` = '" + String.valueOf(txtSenha.getPassword()) + "'";
             }
-
+///////////////////////////////////////////////////////////
             if (atualizarNome.length() > 0 || atualizarEmail.length() > 0 || atualizarSenha.length() > 0) {
                 Connection conexao = MySQLConnector.conectar();
                 String strSqlAtualizarId = "update `db_senac`.`tbl_senac` set " + atualizarNome + atualizarEmail + atualizarSenha + " where `id` = " + cbxId.getSelectedItem().toString() + ";";
@@ -60,6 +48,7 @@ public class TelaDeAtualizacaoController extends TelaDeAtualizacaoView {
                 senhaAtual = String.valueOf(txtSenha.getPassword());
                 stmSqlAtualizarId.close();
                 lblNotificacoes.setText("O id " + cbxId.getSelectedItem().toString() + " foi atualizado com sucesso!");
+////////////////////////////////////////////////////////////
             } else {
                 lblNotificacoes.setText("Não foram encontradas alterações para atualizar o id " + cbxId.getSelectedItem().toString());
             }
@@ -105,4 +94,13 @@ public class TelaDeAtualizacaoController extends TelaDeAtualizacaoView {
         }
     }
 
+    public static void notificarUsuario(String txt) {
+        lblNotificacoes.setText(setHtmlFormat(txt));
+    }
+
+    public static void registrarAtualizacao( ) {
+        nomeAtual = txtNome.getText();
+        emailAtual = txtEmail.getText();
+        senhaAtual = String.valueOf(txtSenha.getPassword());
+    }
 }
