@@ -1,21 +1,27 @@
 package view;
-
-import javax.swing.*;
+import controller.*;
 import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
+// Classe que representa a tela de login
 public class TelaDeLoginView extends JFrame {
+    private final JLabel lblLogin; 
+    public final JTextField txtLogin; 
 
-    private final JLabel lblLogin;
-    private final JTextField txtLogin;
-    private final JLabel lblSenha;
-    private final JPasswordField txtSenha;
+    private final JLabel lblSenha; 
+    public final JPasswordField txtSenha;
+
     private final JButton btnEntrar;
-    private final JLabel lblNotificacoes;
 
+    public static JLabel lblNotificacoes; 
+
+    // Construtor da classe
     public TelaDeLoginView() {
         super("Tela de Login");
         setLayout(new FlowLayout());
 
+        // Inicializa e adiciona os componentes
         lblLogin = new JLabel("Login:");
         add(lblLogin);
 
@@ -34,31 +40,32 @@ public class TelaDeLoginView extends JFrame {
         lblNotificacoes = new JLabel("Notificações", SwingConstants.CENTER);
         add(lblNotificacoes);
 
-        setSize(150, 200);
-        setVisible(true);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        // Adiciona o ActionListener ao botão "Entrar"
+        btnEntrar.addActionListener(
+            new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent event) {
+                    // Chama o método de login do controlador
+                    TelaDeLoginController.logarController(txtLogin.getText(), String.valueOf(txtSenha.getPassword()));
+                }
+            }
+        );
+
+        setDefaultCloseOperation(EXIT_ON_CLOSE); 
+        setSize(150, 200); 
+        setVisible(true); 
     }
 
-    public String getLogin() {
-        return txtLogin.getText();
+    // Formata uma string em HTML
+    public static String setHtmlFormat(String strTexto) {
+        return "<html><body>" + strTexto + "</body></html>";
     }
 
-    public String getSenha() {
-        return String.valueOf(txtSenha.getPassword());
-    }
+    // Instância da tela de login
+    public static TelaDeLoginView appTelaDeLoginView; 
 
-    public JButton getBtnEntrar() {
-        return btnEntrar;
-    }
-
-    public void setNotificacoes(String mensagem) {
-        lblNotificacoes.setText("<html><body>" + mensagem + "</body></html>");
-    } 
-    
-    public static TelaDeLoginView appTelaDeLoginView;
+    // Método principal para executar a aplicação
     public static void main(String[] args) {
-    appTelaDeLoginView = new TelaDeLoginView(); 
-    appTelaDeLoginView.setDefaultCloseOperation(EXIT_ON_CLOSE); 
+        appTelaDeLoginView = new TelaDeLoginView();
     }
 }
-
