@@ -5,21 +5,23 @@ import java.awt.event.*;
 import javax.swing.*;
 
 // Classe que representa a tela de login
-public class TelaDeLoginView extends JFrame {
-    private final JLabel lblLogin; 
-    public final JTextField txtLogin; 
+public class TelaDeLoginView extends JFrame
+{
+    private final JLabel lblLogin;
+    public final JTextField txtLogin;
 
-    private final JLabel lblSenha; 
+    private final JLabel lblSenha;
     public final JPasswordField txtSenha;
 
     private final JButton btnEntrar;
 
-    public static JLabel lblNotificacoes; 
+    public static JLabel lblNotificacoes;
 
-    // Construtor da classe
-    public TelaDeLoginView() {
+     // Construtor da classe
+    public TelaDeLoginView()
+    {
         super("Tela de Login");
-        setLayout(new FlowLayout());
+        setLayout(new GridLayout(6,1,5,5));
 
         // Inicializa e adiciona os componentes
         lblLogin = new JLabel("Login:");
@@ -51,19 +53,65 @@ public class TelaDeLoginView extends JFrame {
             }
         );
 
-        setDefaultCloseOperation(EXIT_ON_CLOSE); 
-        setSize(150, 200); 
-        setVisible(true); 
+        btnEntrar.addKeyListener(
+            new KeyAdapter() {
+                @Override
+                public void keyReleased(KeyEvent event) {
+                    if (event.getKeyCode() == 10 && validarCampos() == true) {
+                        TelaDeLoginController.logarController(txtLogin.getText(), String.valueOf(txtSenha.getPassword()));
+                    }
+                }
+            }
+        );
+
+        txtSenha.addKeyListener(
+            new KeyAdapter() {
+                @Override
+                public void keyReleased(KeyEvent event) {
+                    if (event.getKeyCode() == 10 && validarCampos() == true) {
+                        TelaDeLoginController.logarController(txtLogin.getText(), String.valueOf(txtSenha.getPassword()));
+                    }
+                }
+            }
+        );
+
+        txtLogin.addKeyListener(
+            new KeyAdapter() {
+                @Override
+                public void keyReleased(KeyEvent event) {
+                    if (event.getKeyCode() == 10 && validarCampos() == true) {
+                        TelaDeLoginController.logarController(txtLogin.getText(), String.valueOf(txtSenha.getPassword()));
+                    }
+                }
+            }
+        );
+
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(150, 600);
+        setVisible(true);
+    }
+
+    public boolean validarCampos() {
+        if (txtLogin.getText().trim().length() == 0) {
+            TelaDeLoginController.notificarUsuario("Ops! É necessário digitar um login válido para continuar. Por favor, digite um login e tecle: \"Enter\".");
+            txtLogin.requestFocus();
+            return false;
+        }
+        if (String.valueOf(txtSenha.getPassword()).trim().length() == 0) {
+            TelaDeLoginController.notificarUsuario("Ops! É necessário digitar uma senha válida para continuar. Por favor, digite uma senha e tecle: \"Enter\".");
+            txtSenha.requestFocus();
+            return false;
+        }
+        return true;
     }
 
     // Formata uma string em HTML
     public static String setHtmlFormat(String strTexto) {
-        return "<html><body>" + strTexto + "</body></html>";
+        return "<html><body><center>" + strTexto + "</center></body></html>";
     }
 
     // Instância da tela de login
-    public static TelaDeLoginView appTelaDeLoginView; 
-
+    public static TelaDeLoginView appTelaDeLoginView;
     // Método principal para executar a aplicação
     public static void main(String[] args) {
         appTelaDeLoginView = new TelaDeLoginView();

@@ -2,6 +2,8 @@ package model;
 import java.sql.*;
 import controller.*;
 
+//import controller.TelaDeAtualizacaoController;
+
 // Classe responsável pela lógica de autenticação
 public class TelaDeLoginModel {
     // Método para verificar login e senha
