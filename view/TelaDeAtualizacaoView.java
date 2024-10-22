@@ -1,4 +1,5 @@
 package view;
+
 import controller.*;
 
 import java.awt.*;
@@ -92,7 +93,7 @@ public class TelaDeAtualizacaoView extends JFrame {
 
         add(linha_notificacoes);
 
-        btnAtualizar.addActionListener(
+        btnAtualizar.addActionListener( 
             new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent event) {
@@ -101,7 +102,7 @@ public class TelaDeAtualizacaoView extends JFrame {
             }
         );
 
-        btnCancelar.addActionListener(
+        btnCancelar.addActionListener( 
             new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent event) {
@@ -110,7 +111,7 @@ public class TelaDeAtualizacaoView extends JFrame {
             }
         );
 
-        cbxId.addItemListener(
+        cbxId.addItemListener( 
             new ItemListener() {
             @Override
                 public void itemStateChanged(ItemEvent event) {
@@ -121,19 +122,20 @@ public class TelaDeAtualizacaoView extends JFrame {
             }
         );
 
-        setSize(250, 300);
-        ImageIcon img = new ImageIcon("./senac-logo.png");
-        setIconImage(img.getImage());
-        setVisible(true);
-        cbxId.requestFocus();
+        setSize(285, 300); 
+        ImageIcon img = new ImageIcon("./senac-logo.png"); 
+        setIconImage(img.getImage()); 
+        setVisible(true); 
+        cbxId.requestFocus(); 
     }
 
-    public static String setHtmlFormat(String strTexto) {
+    public static String setHtmlFormat(String strTexto) { 
         return "<html><body>" + strTexto + "</body></html>";
     }
 
-    public static void main(String[] args) {
-        TelaDeAtualizacaoView appTelaDeAtualizacaoView = new TelaDeAtualizacaoView();
+    public static TelaDeAtualizacaoView appTelaDeAtualizacaoView;
+    public static void main(String[] args) { 
+        appTelaDeAtualizacaoView = new TelaDeAtualizacaoView();
         appTelaDeAtualizacaoView.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 }

@@ -1,11 +1,9 @@
 package view;
 import controller.*;
-import model.MySQLConnector;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.sql.*;
 
 public class TelaDeCadastroView extends JFrame
 {
@@ -74,12 +72,11 @@ public class TelaDeCadastroView extends JFrame
                     }
 
                     lblNotificacoes.setText(TelaDeCadastroController.cadastrarController(txtNome.getText(), txtEmail.getText(), String.valueOf(txtSenha.getPassword())));
-                    // Aqui deverá ser chamado o método da controller de cadastro
                 }
             }
         );
 
-        setSize(250, 600);
+        setSize(250, 250);
         setVisible(true);
     }
 
@@ -87,8 +84,9 @@ public class TelaDeCadastroView extends JFrame
         return "<html><body>" + strTexto + "</body></html>";
     }
 
+    public static TelaDeCadastroView appTelaDeCadastroView;
     public static void main(String[] args) {
-        TelaDeCadastroView appTelaDeCadastroView = new TelaDeCadastroView();
+        appTelaDeCadastroView = new TelaDeCadastroView();
         appTelaDeCadastroView.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 }
